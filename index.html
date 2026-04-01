@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>شجرة عائلة آل محمد خير إبراهيم</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: #3f7348;  /* خلفية خضراء فاتحة */
+            padding: 15px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .main-wrapper {
+            max-width: 1300px;
+            width: 100%;
+            background: #ffffffd9;
+            backdrop-filter: blur(2px);
+            border-radius: 50px;
+            padding: 25px 20px;
+            box-shadow: 0 15px 30px rgba(0, 30, 0, 0.2);
+        }
+        /* رأس الصفحة */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            background: #2d5e3b;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 60px;
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            display: inline-block;
+            box-shadow: 0 5px 0 #1a3b23;
+        }
+        .header h1 i {
+            margin: 0 10px;
+        }
+        .credits {
+            margin-top: 8px;
+            color: #1f4a2b;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        /* بطاقة الجد */
+        .grandfather {
+            background: #3f7348;
+            border-radius: 40px;
+            padding: 10px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            color: white;
+            box-shadow: 0 8px 0 #23512d;
+        }
+        .grandfather i {
+            font-size: 4rem;
+            background: #295c34;
+            padding: 15px;
+            border-radius: 50%;
+        }
+        .grandfather h2 {
+            font-size: clamp(2rem, 6vw, 4rem);
+        }
+        .grandfather p {
+            background: #578b5f;
+            padding: 8px 25px;
+            border-radius: 40px;
+            font-size: 1.5rem;
+        }
+        /* أزرار التحكم */
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .btn {
+            background: #2d5e3b;
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            font-size: 1.3rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #1a3b23;
+            transition: 0.1s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn:hover {
+            background: #3d7849;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 0 #1a3b23;
+        }
+        .btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #1a3b23;
+        }
+        /* أقسام الزوجات */
+        .wives-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .wife-card {
+            background: #e2f0df;
+            border-radius: 40px;
+            padding: 18px;
+            border: 2px solid #8fb893;
+        }
+        .wife-header {
+            background: #41734a;
+            border-radius: 60px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            color: white;
+        }
+        .wife-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+        }
+        .wife-title i {
+            font-size: 2rem;
+        }
+        .wife-title span {
+            background: #1e542b;
+            padding: 3px 15px;
+            border-radius: 40px;
+            font-size: 1.2rem;
+        }
+        .toggle-btn {
+            background: white;
+            color: #1d4a27;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.1s;
+        }
+        .toggle-btn:hover {
+            background: #d4ecd4;
+        }
+        /* شبكة الأبناء */
+        .children-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .hidden {
+            display: none;
+        }
+        .child-item {
+            background: white;
+            border-radius: 40px;
+            padding: 15px;
+            border: 2px solid #90b68b;
+            box-shadow: 0 4px 8px rgba(0,30,0,0.1);
+            transition: all 0.2s;
+        }
+        .child-name {
+            font-size: 1.7rem;
+            border-bottom: 2px dotted #6f9e78;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .male-icon { color: #246b6b; }
+        .female-icon { color: #b8485e; }
+        .spouse-badge {
+            background: #e3f0df;
+            padding: 4px 16px;
+            border-radius: 40px;
+            display: inline-block;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        .multiple-spouses {
+            background: #f4e5c2;
+            border-right: 4px solid #d49c3a;
+            padding: 8px 12px;
+            border-radius: 28px;
+            margin-bottom: 12px;
+        }
+        .spouse-group {
+            margin-bottom: 12px;
+            background: #fff7e8;
+            border-radius: 24px;
+            padding: 8px 12px;
+        }
+        .spouse-name {
+            font-weight: bold;
+            color: #b45f1b;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .grandchildren {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 5px;
+        }
+        .grandchild {
+            background: #c7e0c4;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .grandchild.female {
+            background: #fad4da;
+        }
+        .no-children {
+            color: #2a572a;
+            font-style: italic;
+            padding: 8px;
+            font-size: 0.9rem;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #1b4a24;
+            border-top: 2px solid #a1c7a1;
+            padding-top: 15px;
+            font-size: 1.2rem;
+        }
+        /* تحسين للجوال */
+        @media (max-width: 500px) {
+            .main-wrapper { padding: 15px; }
+            .wife-title { font-size: 1.2rem; }
+            .child-name { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="header">
+            <h1><i class="fas fa-tree"></i> شجرة عائلة آل محمد خير <i class="fas fa-tree"></i></h1>
+            <div class="credits"><i class="fas fa-pen"></i> إعداد: عميري عبدالخالق إبراهيم</div>
+        </div>
+
+        <div class="grandfather">
+            <i class="fas fa-crown"></i>
+            <div>
+                <h1>محمد خير إبراهيم</h1>
+                <p><i class="fas fa-heart"></i> أربع زوجات</p>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" id="expandAll"><i class="fas fa-plus-circle"></i> فتح الكل</button>
+            <button class="btn" id="collapseAll"><i class="fas fa-minus-circle"></i> طي الكل</button>
+        </div>
+
+        <div id="wivesContainer" class="wives-container"></div>
+
+        <div class="footer">
+            <i class="fas fa-seedling"></i> غرس الأجداد وثمار الأحفاد <i class="fas fa-seedling"></i>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // قائمة بأسماء الإناث (للاستدلال على جنس الأحفاد غير المحدد)
+            const femaleNames = [
+                "اعتصام", "مزاهر", "ربيعة", "نجاح", "أسيل", "أروى", "سماح", "محاسن",
+                "مريم", "زينب", "ثريا", "ستنا", "رابعة", "زهرة", "سلمى", "سليمة",
+                "حبيبة", "نجلاء", "ميساء", "وصال", "نهلة", "ناهد", "إعتماد", "سناء",
+                "ماريا", "وفاء", "وفاق", "درر", "عبير", "مودة", "ضحى", "سجى", "أبرار",
+                "فدوى", "إيلاف", "فيحاء", "ألاء", "آية", "حنان", "منال", "فاطمة", "سعاد",
+                "زهرة", "رابعة", "ستنا", "ثريا", "مريم"
+       ,  "عرفة"   ];
+            
+            function getGrandchildGender(name) {
+                return femaleNames.includes(name) ? "female" : "male";
+            }        
+            const wivesData = [
+                {
+                    name: "مريم طمبل (أرتقاشا)",
+                    children: [
+                        { name: "فاطمة", gender: "female", spouse: "محمد درار", kids: ["مريم", "درار", "أحمد", "زينب", "ثريا", "اعتصام", "ياسر", "أنور"] },
+                        { name: "إبراهيم", gender: "male", spouse: "زينب", kids: ["محمد", "عبدالخالق", "فاطمة", "عمر", "زهرة", "عبدالمطلب", "عبدالرؤوف", "ستنا", "رابعة", "ربيعة", "محمد خير", "عبدالرحمن"] },
+                        // الابن محمد: له زوجتان (تعدد الزوجات) - تم حل المشكلة هنا باستخدام خاصية spouses
+                        { 
+                            name: "محمد", 
+                            gender: "male",
+                            spouses: [
+                                { name: "فاطمة", kids: ["سيف الإسلام", "عبدالوهاب", "سعاد", "محاسن", "سلمى", "سليمة", "الباقر"] },
+                                { name: "عواطف", kids: ["مصدق", "مزاهر", "طارق", "سمير", "عبدالإله", "أحمد المصطفى", "مصعب"] }
+                            ]
+                        },
+                        { name: "فقير", gender: "male", spouse: "فتحية", kids: ["قرشي", "حنان", "محمد الهادي", "منال", "الوليد"] },
+                        { name: "آمنة", gender: "female", spouse: "أمين", kids: ["جمال", "عبدالمحسن", "فاطمة", "حبيبة", "محمد"] },
+                        { name: "عوض", gender: "male", spouse: "بتول", kids: ["محمد", "وصال", "نهلة", "نجلاء", "النوراني", "مروان", "مصعب", "ميساء"] },
+                        { name: "عبدالرحيم", gender: "male", spouse: "نورة", kids: ["ناهد", "إعتماد", "محمد", "سناء", "ماريا"] }
+                    ]
+                },
+                {
+                    name: "آمنة فقير (مروارتي)",
+                    children: [
+                        { name: "عبدالله", gender: "male", spouse: "بنت وهب", kids: ["نيازي", "عبدالودود", "نجاح", "غازي"] }
+                    ]
+                },
+                {
+                    name: "حمراء عبد الكريم (مروارتي)",
+                    children: [] // لا يوجد أبناء
+                },
+                {
+                    name: "عرفة محمد علي (أرتقاشا)",
+                    children: [
+                        { name: "حامد", gender: "male", spouse: "منايات", kids: ["وفاء", "وفاق", "محمد خير", "عرفة", "درر"] },
+                        { name: "منصف", gender: "male", spouse: "معالي", kids: ["محمد", "أحمد", "سماح"] },
+                        { name: "خدمة الله", gender: "female", spouse: "محمد أحمد", kids: ["عمرو", "فاطمة", "عبير", "مودة", "ضحى", "عبادة", "سجى", "قتادة"] },
+                        { name: "أميمة", gender: "female", spouse: "هاشم", kids: ["فاطمة", "أبرار", "فدوى", "إيلاف", "محمد", "مراد"] },
+                        { name: "نبوية", gender: "female", spouse: "السموأل", kids: ["الهجرس", "فيحاء", "ساجد", "محمد", "مهند", "أسيل"] },
+                        { name: "ندى", gender: "female", spouse: "الماحي", kids: ["ألاء", "آية", "أروى"] }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('wivesContainer');
+            
+            // دالة مساعدة لإنشاء عرض الأحفاد من قائمة أسماء
+            function renderKidsList(kidsArray) {
+                if (!kidsArray || kidsArray.length === 0) {
+                    return '<span class="no-children">لا يوجد أبناء</span>';
+                }
+                let html = '<div class="grandchildren">';
+                kidsArray.forEach(kid => {
+                    const gender = getGrandchildGender(kid);
+                    const icon = gender === 'female' ? 'fa-venus' : 'fa-mars';
+                    html += `<span class="grandchild ${gender}"><i class="fas ${icon}"></i> ${kid}</span>`;
+                });
+                html += '</div>';
+                return html;
+            }
+            
+            // دالة لعرض بطاقة الطفل مع دعم تعدد الزوجات (spouses)
+            function createChildCard(child) {
+                const card = document.createElement('div');
+                card.className = 'child-item';
+                
+                // اسم الابن مع أيقونة الجنس
+                const nameDiv = document.createElement('div');
+                nameDiv.className = 'child-name';
+                const genderIcon = child.gender === 'male' ? 
+                    '<i class="fas fa-mars male-icon"></i>' : 
+                    '<i class="fas fa-venus female-icon"></i>';
+                nameDiv.innerHTML = `${genderIcon} ${child.name}`;
+                card.appendChild(nameDiv);
+                
+                // حالة تعدد الزوجات: إذا وجدت خاصية spouses (مصفوفة)
+                if (child.spouses && Array.isArray(child.spouses) && child.spouses.length > 0) {
+                    const multiContainer = document.createElement('div');
+                    multiContainer.className = 'multiple-spouses';
+                    // عنوان توضيحي
+                    const titleSpan = document.createElement('div');
+                    titleSpan.style.fontWeight = 'bold';
+                    titleSpan.style.marginBottom = '8px';
+                    titleSpan.style.fontSize = '0.9rem';
+                    titleSpan.style.color = '#3a5a2e';
+                    titleSpan.innerHTML = '<i class="fas fa-heart"></i> الزوجات:';
+                    multiContainer.appendChild(titleSpan);
+                    
+                    child.spouses.forEach((spouse, idx) => {
+                        const spouseGroup = document.createElement('div');
+                        spouseGroup.className = 'spouse-group';
+                        spouseGroup.innerHTML = `
+                            <div class="spouse-name">
+                                <i class="fas fa-ring"></i> الزوجة: ${spouse.name}
+                            </div>
+                        `;
+                        // إضافة الأحفاد
+                        const kidsHtml = renderKidsList(spouse.kids);
+                        const kidsWrapper = document.createElement('div');
+                        kidsWrapper.innerHTML = kidsHtml;
+                        spouseGroup.appendChild(kidsWrapper);
+                        multiContainer.appendChild(spouseGroup);
+                    });
+                    card.appendChild(multiContainer);
+                } 
+                else {
+                    // حالة الزوجة الواحدة أو بدون زوجة
+                    if (child.spouse) {
+                        const spouseDiv = document.createElement('div');
+                        spouseDiv.className = 'spouse-badge';
+                        const role = child.gender === 'male' ? 'الزوجة' : 'الزوج';
+                        spouseDiv.innerHTML = `<i class="fas fa-ring"></i> ${role}: ${child.spouse}`;
+                        card.appendChild(spouseDiv);
+                    }
+                    // عرض الأحفاد
+                    if (child.kids && child.kids.length > 0) {
+                        const kidsHtml = renderKidsList(child.kids);
+                        const kidsContainer = document.createElement('div');
+                        kidsContainer.innerHTML = kidsHtml;
+                        card.appendChild(kidsContainer);
+                    } else {
+                        const noKidsDiv = document.createElement('div');
+                        noKidsDiv.className = 'no-children';
+                        noKidsDiv.innerHTML = 'لا يوجد أبناء';
+                        card.appendChild(noKidsDiv);
+                    }
+                }
+                return card;
+            }
+
+            // بناء واجهة الزوجات والأبناء
+            wivesData.forEach(wife => {
+                const wifeDiv = document.createElement('div');
+                wifeDiv.className = 'wife-card';
+
+                // رأس الزوجة
+                const header = document.createElement('div');
+                header.className = 'wife-header';
+                header.innerHTML = `
+                    <div class="wife-title">
+                        <i class="fas fa-venus"></i>
+                        <h3>${wife.name}</h3>
+                        <span>${wife.children.length} أولاد</span>
+                    </div>
+                    <button class="toggle-btn"><i class="fas fa-chevron-up"></i></button>
+                `;
+
+                const grid = document.createElement('div');
+                grid.className = 'children-grid';
+
+                if (wife.children.length === 0) {
+                    grid.innerHTML = '<div class="no-children" style="padding:20px; text-align:center;">ليس لها أبناء</div>';
+                } else {
+                    wife.children.forEach(child => {
+                        const childCard = createChildCard(child);
+                        grid.appendChild(childCard);
+                    });
+                }
+
+                // زر طي/فتح
+                const toggleBtn = header.querySelector('.toggle-btn');
+                toggleBtn.addEventListener('click', () => {
+                    grid.classList.toggle('hidden');
+                    const icon = toggleBtn.querySelector('i');
+                    if (grid.classList.contains('hidden')) {
+                        icon.classList.remove('fa-chevron-up');
+                        icon.classList.add('fa-chevron-down');
+                    } else {
+                        icon.classList.remove('fa-chevron-down');
+                        icon.classList.add('fa-chevron-up');
+                    }
+                });
+
+                wifeDiv.appendChild(header);
+                wifeDiv.appendChild(grid);
+                container.appendChild(wifeDiv);
+            });
+
+            // أزرار التحكم العامة: فتح الكل وطي الكل
+            document.getElementById('expandAll').addEventListener('click', () => {
+                document.querySelectorAll('.children-grid').forEach(g => {
+                    g.classList.remove('hidden');
+                    const btn = g.previousElementSibling?.querySelector('.toggle-btn i');
+                    if (btn) {
+                        btn.classList.remove('fa-chevron-down');
+                        btn.classList.add('fa-chevron-up');
+                    }
+                });
+            });
+
+            document.getElementById('collapseAll').addEventListener('click', () => {
+                document.querySelectorAll('.children-grid').forEach(g => {
+                    g.classList.add('hidden');
+                    const btn = g.previousElementSibling?.querySelector('.toggle-btn i');
+                    if (btn) {
+                        btn.classList.remove('fa-chevron-up');
+                        btn.classList.add('fa-chevron-down');
+                    }
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
